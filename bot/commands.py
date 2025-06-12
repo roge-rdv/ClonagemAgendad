@@ -19,23 +19,29 @@ def is_admin(user_id):
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Comando /start - Mostra o menu principal."""
+    # Garante que sempre responde, mesmo se chamado por não-admin
     if not update.message or not update.effective_user:
         return
-    
+
     user_id = update.effective_user.id
     if not is_admin(user_id):
-        await update.message.reply_text(
-            "❌ Acesso negado. Este bot é restrito ao administrador.\n\n"
-            "🇧🇷 Para adquirir este bot, entre em contato com @rogee_rdvv\n"
-            "🇺🇸 To acquire this bot, contact @rogee_rdvv\n"
-            "🇪🇦 Para comprar este bot, comuníquese con @rogee_rdvv",
-            parse_mode='Markdown'
-        )
+        try:
+            await update.message.reply_text(
+                "❌ Acesso negado. Este bot é restrito ao administrador.\n\n"
+                "🇧🇷 Para adquirir este bot, entre em contato com @rogee_rdvv\n"
+                "🇺🇸 To acquire this bot, contact @rogee_rdvv\n"
+                "🇪🇦 Para comprar este bot, comuníquese con @rogee_rdvv",
+                parse_mode='Markdown'
+            )
+        except Exception as e:
+            # fallback para garantir resposta mesmo se markdown falhar
+            await update.message.reply_text(
+                "Acesso negado. Este bot é restrito ao administrador. Contato: @rogee_rdvv"
+            )
         return
-    
+
     text = inline_menu.get_menu_text('main')
     keyboard = inline_menu.get_menu_keyboard('main')
-    
     await update.message.reply_text(text, parse_mode='Markdown', reply_markup=keyboard)
 
 async def menu_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
