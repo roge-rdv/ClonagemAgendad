@@ -1,0 +1,29 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.db
+*.sqlite3
+
+# Ambiente virtual
+venv/
+env/
+ENV/
+.venv/
+.ENV/
+
+# Configuração local/sensível
+config.py
+*.env
+
+# Logs
+*.log
+
+# Backup/temporários
+*.bak
+*.tmp
+.DS_Store
+
+# Outros arquivos do sistema
+Thumbs.db
