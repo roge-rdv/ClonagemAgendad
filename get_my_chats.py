@@ -1,7 +1,7 @@
 from telegram import Update
 from telegram.ext import Application, CommandHandler, ContextTypes, MessageHandler, filters
 
-TELEGRAM_BOT_TOKEN = "7275987527:AAG2Xf5t3jVooSrjQlXo6QWwrBjfriHmK2U"  # Substitua pelo seu token
+TELEGRAM_BOT_TOKEN = ""  # Substitua pelo seu token
 
 async def list_chats(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user = update.effective_user
