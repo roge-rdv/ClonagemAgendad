@@ -64,14 +64,17 @@ class SmartScheduler:
     
     def should_post_now(self, canal_id, current_time=None):
         """Verifica se deve postar agora para um canal específico."""
-        if current_time is None:
-            current_time = datetime.now().strftime("%H:%M")
-        
         schedules = self.get_schedules(canal_id)
-        # Se não há horários configurados, sempre pode postar (comportamento padrão)
-        if not schedules:
-            return True
-        return current_time in schedules
+        
+        # Se há horários personalizados configurados, usa eles
+        if schedules:
+            if current_time is None:
+                current_time = datetime.now().strftime("%H:%M")
+            return current_time in schedules
+        
+        # Se não há horários personalizados, sempre pode postar 
+        # (o controle será feito pelo SCHEDULE_HOURS no scheduler)
+        return True
     
     def get_next_post_time(self, canal_id, current_time=None):
         """Retorna o próximo horário de postagem para um canal."""
