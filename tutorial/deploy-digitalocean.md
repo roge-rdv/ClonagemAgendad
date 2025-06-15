@@ -16,7 +16,7 @@
 
 ### Via SSH
 ```bash
-ssh root@SEU_IP_DO_DROPLET
+ssh root@id
 ```
 
 ### Ou via Console Web
