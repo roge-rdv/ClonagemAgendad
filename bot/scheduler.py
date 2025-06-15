@@ -1,12 +1,25 @@
-from config import SCHEDULE_HOURS
+from apscheduler.schedulers.asyncio import AsyncIOScheduler
+from apscheduler.triggers.interval import IntervalTrigger
 from bot.telegram_bot import send_scheduled_posts
-from bot.smart_scheduler import smart_scheduler
 
-def start_scheduler(app=None):
-    """Inicia o agendador com base no SCHEDULE_HOURS configurado."""
-    if app is not None:
-        # Converte horas para segundos
-        interval_seconds = SCHEDULE_HOURS * 3600
-        # Executa baseado no intervalo configurado em config.py
-        app.job_queue.run_repeating(send_scheduled_posts, interval=interval_seconds)
-        print(f"Scheduler iniciado: envios a cada {SCHEDULE_HOURS} horas ({interval_seconds} segundos)")
+scheduler = AsyncIOScheduler()
+
+def start_scheduler(app):
+    """Inicia o agendador para envio automático de posts."""
+    
+    # 🔥 AQUI TU MUDA O INTERVALO PRINCIPAL!
+    # Opções:
+    # seconds=30 - A cada 30 segundos (MAIS AGRESSIVO)
+    # minutes=5 - A cada 5 minutos (BALANCEADO)
+    # hours=1 - A cada 1 hora (MAIS CONSERVADOR)
+    
+    scheduler.add_job(
+        send_scheduled_posts,
+        trigger=IntervalTrigger(hours=1),  # 🎯 MUDA AQUI!
+        args=[app],
+        id='send_posts',
+        replace_existing=True
+    )
+    
+    scheduler.start()
+    print("📅 Scheduler iniciado: verificando posts a cada 30 segundos")

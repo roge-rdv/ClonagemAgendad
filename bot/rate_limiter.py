@@ -5,10 +5,21 @@ class RateLimiter:
     def __init__(self):
         # Armazena timestamps dos últimos envios por canal
         self.send_history = defaultdict(deque)
-        # Configurações de limite
+        
+        # 🔥 CONFIGURAÇÕES DE LIMITE - MUDA AQUI!
         self.max_messages_per_minute = 20  # Máximo 20 mensagens por minuto por canal
         self.max_messages_per_hour = 200   # Máximo 200 mensagens por hora por canal
         self.min_interval_between_sends = 3  # Mínimo 3 segundos entre envios
+        
+        # 💡 PARA SER MAIS AGRESSIVO:
+        # self.max_messages_per_minute = 30
+        # self.max_messages_per_hour = 300
+        # self.min_interval_between_sends = 1
+        
+        # 💡 PARA SER MAIS CONSERVADOR:
+        # self.max_messages_per_minute = 10
+        # self.max_messages_per_hour = 100
+        # self.min_interval_between_sends = 5
         
     def can_send(self, canal_id):
         """
